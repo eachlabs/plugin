@@ -1,0 +1,104 @@
+name: version
+
+# A pull request carries one version/patch, version/minor or version/major label.
+# While it is open, this writes the version that label gives into plugin.json and
+# CHANGELOG.md on the pull request's branch; when it merges, this tags the merge
+# commit with that version. Nothing here pushes to main.
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled, closed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: version-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check the version label
+        id: label
+        env:
+          BASE: origin/${{ github.event.pull_request.base.ref }}
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          part="$(node scripts/version-label.mjs "$BASE" "$LABELS")"
+          echo "part=$part" >> "$GITHUB_OUTPUT"
+
+      # Commits pushed with GITHUB_TOKEN start no workflow, so this push does not
+      # run this job again, and check.yml does not run on the bot's commit.
+      - name: Write the version and changelog entry
+        if: steps.label.outputs.part != ''
+        env:
+          PART: ${{ steps.label.outputs.part }}
+          TITLE: ${{ github.event.pull_request.title }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          version="$(bash scripts/bump-version.sh "$PART" "$TITLE")"
+          node -e 'JSON.parse(require("fs").readFileSync(".claude-plugin/plugin.json"))'
+          if git diff --quiet -- .claude-plugin/plugin.json CHANGELOG.md; then
+            echo "Version $version is already written." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$SAME_REPO" != "true" ]; then
+            echo "::error::A pull request from a fork cannot be updated; write version $version into plugin.json and CHANGELOG.md by hand."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/plugin.json CHANGELOG.md
+          git commit -q -m "Release $version"
+          git push origin "HEAD:refs/heads/$HEAD_REF"
+          echo "Wrote version $version." >> "$GITHUB_STEP_SUMMARY"
+
+  tag:
+    if: >-
+      github.event.action == 'closed' && github.event.pull_request.merged == true &&
+      (contains(github.event.pull_request.labels.*.name, 'version/patch') ||
+       contains(github.event.pull_request.labels.*.name, 'version/minor') ||
+       contains(github.event.pull_request.labels.*.name, 'version/major'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+
+      - name: Check there is one version label
+        env:
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          count="$(node -p 'JSON.parse(process.env.LABELS).filter((l) => l.startsWith("version/")).length')"
+          if [ "$count" != "1" ]; then
+            echo "::error::This pull request merged with $count version/* labels, so it is not tagged. Tag the merge commit by hand with the version in plugin.json."
+            exit 1
+          fi
+
+      - name: Tag the merge commit
+        env:
+          COMMIT: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          version="$(node -p 'require("./.claude-plugin/plugin.json").version')"
+          tag="v$version"
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+            echo "::error::$tag already exists, so this merge is not tagged. Another pull request released $version first; open a pull request with a version label to release this change."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$tag" -m "Release $tag" "$COMMIT"
+          git push origin "refs/tags/$tag"
+          echo "Tagged $COMMIT as $tag." >> "$GITHUB_STEP_SUMMARY"

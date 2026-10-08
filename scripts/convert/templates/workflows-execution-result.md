@@ -1,0 +1,1 @@
+The execution is finished when `status` is `completed`, `failed` or `cancelled`. The result carries `execution_id`, `workflow_id`, `version_id`, `status`, `inputs`, `step_outputs` (one entry per step, with its `output` and `primary`), `output`, `error` when it failed, and `total_cost` once finished.

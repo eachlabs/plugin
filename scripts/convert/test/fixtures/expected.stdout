@@ -1,0 +1,39 @@
+source: <source> (unknown)
+out: <out>
+
+converted: 4
+  eachlabs-workflows (workflows)
+  legacy-workflows (workflows)
+  no-h2 (model)
+  synthetic-model (model, references/MODELS.md)
+deferred: 1
+  sense-skill: each::sense is deferred
+skipped: 5
+  no-description: frontmatter without name or description
+  no-frontmatter: no frontmatter
+  no-host-skill: calls no known host; nothing to convert
+  no-skill-file: no SKILL.md
+  wrong-name: frontmatter name does not match folder wrong-name
+TODO(contract): 12
+  eachlabs-workflows/SKILL.md: trigger body has unknown fields priority
+  legacy-workflows/SKILL.md: no tool for GET https://workflows.eachlabs.run/api/v1/categories
+  legacy-workflows/SKILL.md: trigger body is not JSON: oops
+  no-h2/SKILL.md: no media sentence for no-h2: add it to MEDIA_SENTENCES in scripts/convert/media.mjs
+  synthetic-model/SKILL.md: no media sentence for synthetic-model: add it to MEDIA_SENTENCES in scripts/convert/media.mjs
+  synthetic-model/SKILL.md: no tool for POST https://api.eachlabs.ai/v1/unknown/route
+  synthetic-model/SKILL.md: prediction body is not JSON: not json
+  synthetic-model/SKILL.md: prediction body without model or input
+  synthetic-model/SKILL.md: each::sense call POST https://eachsense-agent.core.eachlabs.run/v1/chat/completions has no tool in this version
+  synthetic-model/SKILL.md: no tool for GET https://other.example.com/v1/thing
+  synthetic-model/SKILL.md: cannot read the URL of a command: curl --help
+  synthetic-model/SKILL.md: unexpected line in a command block: echo done
+notes: 9
+  eachlabs-workflows/SKILL.md: rewrite anchor not found exactly once: "Response:\n```json\n{\"execution_id\": \"exec-123\", \"status\": \"qu"
+  eachlabs-workflows/SKILL.md: rewrite anchor not found exactly once: "### Step 3: Poll for Result\n"
+  eachlabs-workflows/SKILL.md: rewrite anchor not found exactly once: "Response (shortened):\n"
+  eachlabs-workflows/SKILL.md: rewrite anchor not found exactly once: "Execution statuses: `running`, `completed`, `failed`, `cance"
+  eachlabs-workflows/SKILL.md: rewrite anchor not found exactly once: "## Step Types\n"
+  eachlabs-workflows/SKILL.md: rewrite anchor not found exactly once: "Each version holds a complete definition, so you can change "
+  eachlabs-workflows/SKILL.md: dropped webhook_url/webhook_secret from a trigger_workflow call; the tool polls instead
+  legacy-workflows/SKILL.md: dropped webhook_url/webhook_secret from a trigger_workflow call; the tool polls instead
+  synthetic-model/SKILL.md: dropped body fields webhook_url from a run_model call

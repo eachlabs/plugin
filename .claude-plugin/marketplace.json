@@ -1,0 +1,15 @@
+{
+  "name": "eachlabs",
+  "description": "The each::labs plugin: generative media models and workflows in Claude",
+  "owner": {
+    "name": "each::labs",
+    "url": "https://www.eachlabs.ai"
+  },
+  "plugins": [
+    {
+      "name": "eachlabs",
+      "source": "./",
+      "description": "Generate and edit images, video, music and voice with each::labs models, and run your organization's each::labs workflows, from a conversation. Cut, crop, resize and convert media, and pick files, settings and variants on interactive cards inside the chat. Sign in with your each::labs account; no API key needed."
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+name: sync-skills
+
+# Regenerates skills/ from eachlabs/skills main once a day and keeps one pull
+# request open with the result. The bot owns the skills-sync branch and
+# force-pushes it on every run that finds a change; nothing merges by itself.
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: sync-skills
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: skills-sync
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Clone eachlabs/skills main
+        run: git clone --depth 1 https://github.com/eachlabs/skills "$RUNNER_TEMP/skills"
+
+      - name: Regenerate the skills
+        run: bash scripts/sync-skills.sh "$RUNNER_TEMP/skills" "$RUNNER_TEMP/report"
+
+      # The pull request is opened with GITHUB_TOKEN, so version.yml does not run
+      # on it; write the patch release here the same way version.yml would.
+      - name: Write the patch version
+        run: |
+          if [ "$(cat "$RUNNER_TEMP/report/changed")" != "yes" ]; then exit 0; fi
+          short="$(git -C "$RUNNER_TEMP/skills" rev-parse --short=7 HEAD)"
+          bash scripts/bump-version.sh patch "Sync skills from eachlabs/skills $short"
+
+      # A PR opened with GITHUB_TOKEN does not start check.yml, so the same
+      # validation runs here before anything is pushed.
+      - name: Validate the regenerated plugin
+        run: |
+          if [ "$(cat "$RUNNER_TEMP/report/changed")" != "yes" ]; then exit 0; fi
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate . --strict
+          claude plugin validate .claude-plugin/plugin.json --strict
+          claude plugin validate skills --strict
+
+      - name: Push the branch and open or update the pull request
+        run: |
+          if [ "$(cat "$RUNNER_TEMP/report/changed")" != "yes" ]; then
+            echo "Nothing to propose." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          short="$(git -C "$RUNNER_TEMP/skills" rev-parse --short=7 HEAD)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add -A -- skills .claude-plugin/plugin.json CHANGELOG.md
+          git commit -q -m "Sync skills from eachlabs/skills $short"
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+
+          {
+            echo "## What"
+            echo
+            echo "Regenerates the plugin's skills from eachlabs/skills so the plugin follows changes made there. A daily job opened this; review the changed skills and merge when they read right."
+            echo
+            cat "$RUNNER_TEMP/report/summary.md"
+            echo
+            echo "The \`$BRANCH\` branch belongs to the \`sync-skills\` workflow, which force-pushes it on every run that finds a change, so this one pull request always holds the latest regeneration. Do not push to it by hand."
+          } > "$RUNNER_TEMP/report/body.md"
+
+          title="Sync skills from eachlabs/skills $short"
+          gh label create version/patch --color 81ACA6 --description "Release as the next patch version" 2>/dev/null || true
+          existing="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')"
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --title "$title" --body-file "$RUNNER_TEMP/report/body.md" --add-label version/patch
+            echo "Updated #$existing" >> "$GITHUB_STEP_SUMMARY"
+          else
+            gh pr create --base main --head "$BRANCH" --title "$title" --body-file "$RUNNER_TEMP/report/body.md" --label version/patch
+            echo "Opened a pull request" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          cat "$RUNNER_TEMP/report/summary.md" >> "$GITHUB_STEP_SUMMARY"

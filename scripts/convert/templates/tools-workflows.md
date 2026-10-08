@@ -1,0 +1,6 @@
+| `list_workflows` | `limit`, `offset`; the organization's workflows |
+| `get_workflow` | `workflow_id`; the workflow with its versions and their definitions |
+| `trigger_workflow` | `workflow_id`, `version_id`, `inputs`; starts an execution and waits for it |
+| `get_workflow_execution` | `execution_id`; the execution with its status and outputs |
+| `request_workflow_inputs` | `workflow_id`, `version_id` (optional; default the production version, else the newest active one), `inputs` (what you have so far), `prompt`; shows the version's inputs as a card the person fills in, with a drop zone inside the form for each image, video or audio input, and returns a `receipt_url`. Call it whenever the workflow needs a file the person has not given as a URL, or has inputs the person did not mention; skip it when every input is already given. Then call `wait_for_workflow_inputs` with the `receipt_url` right away and pass the `workflow_id`, `version_id` and `inputs` it returns to `trigger_workflow`. If it answers `waiting`, call it again |
+| `wait_for_workflow_inputs` | `receipt_url` from `request_workflow_inputs`; waits for the person to press Run and returns `workflow_id`, `version_id` and `inputs` for `trigger_workflow` |

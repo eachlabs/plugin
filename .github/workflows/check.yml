@@ -1,0 +1,39 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: No curl, key or host left in a skill
+        run: node scripts/check-skills.mjs
+      - name: Clone eachlabs/skills at the commit skills/ was made from
+        run: |
+          commit="$(grep -oE 'at `[0-9a-f]{40}`' skills/DEFERRED.md | grep -oE '[0-9a-f]{40}')"
+          git init -q "$RUNNER_TEMP/skills"
+          git -C "$RUNNER_TEMP/skills" fetch -q --depth 1 https://github.com/eachlabs/skills "$commit"
+          git -C "$RUNNER_TEMP/skills" checkout -q FETCH_HEAD
+      - name: Converter tests
+        run: node --test scripts/convert/test/*.test.mjs
+        env:
+          SKILLS_SOURCE: ${{ runner.temp }}/skills
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+      # `validate <dir>` checks one thing per target: the marketplace manifest
+      # when the directory holds one, a plugin manifest when given its path, and
+      # the skills when given the skills directory. --strict turns warnings
+      # (unknown manifest field, non-kebab-case name) into failures.
+      - name: Validate marketplace manifest
+        run: claude plugin validate . --strict
+      - name: Validate plugin manifest and connector config
+        run: claude plugin validate .claude-plugin/plugin.json --strict
+      - name: Validate skills
+        run: claude plugin validate skills --strict
