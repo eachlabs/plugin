@@ -5,7 +5,7 @@ installed plugin only when that number changes.
 
 ## 0.1.1
 
-- Ask in the chat instead of opening cards in Claude Code
+- Ask in the chat instead of opening cards in apps without cards
 
 ## 0.1.0
 
