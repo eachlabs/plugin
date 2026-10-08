@@ -3,6 +3,10 @@
 Each release changes `version` in `.claude-plugin/plugin.json`; Claude updates an
 installed plugin only when that number changes.
 
+## 0.1.1
+
+- Ask in the chat instead of opening cards in Claude Code
+
 ## 0.1.0
 
 First release for use in Claude Chat, Claude Desktop and Claude Code.
