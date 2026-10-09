@@ -11,21 +11,24 @@ You sign in with your each::labs account; there is no API key to paste.
 
 ## Install
 
+The plugin is installed from its own marketplace, `eachlabs/claude-plugin`.
+
 | Where | How |
 | --- | --- |
-| Claude Chat, Claude Desktop | Customize, Plugins, Add, Upload plugin, and choose a zip of this folder |
+| Claude Chat, Claude Desktop | Customize, Plugins, Add marketplace, enter `eachlabs/claude-plugin`, then add the eachlabs plugin |
 | Claude Code | `claude plugin marketplace add eachlabs/claude-plugin`, then `claude plugin install eachlabs@eachlabs` |
 
-On Team and Enterprise plans an Owner adds the plugin once for the whole
-organization. Each member then signs in with their own each::labs account. That
-account must belong to the each::labs organization that should pay for the
-runs; a member who signs in with a personal account is billed there instead.
+**Team and Enterprise.** An Owner can add the connector
+`https://mcp.eachlabs.ai/mcp` for the whole organization. Each member adds the
+plugin marketplace themselves, because organization-wide plugin sync on
+claude.ai accepts only the organization's own private repositories. Each member
+then signs in with their own each::labs account. That account must belong to
+the each::labs organization that should pay for the runs; a member who signs in
+with a personal account is billed there instead.
 
-**Updating.** A plugin added from an uploaded zip does not update itself: the
-Owner opens it in the organization's plugin settings and chooses Upload new
-version with the newer zip. Members do not need to reinstall or restart. In
-Claude Code, run `claude plugin update eachlabs@eachlabs`, then
-`/reload-plugins` or start a new session.
+**Updating.** In Claude Chat and Claude Desktop a plugin installed from the
+marketplace updates automatically, with no restart. In Claude Code, run
+`claude plugin update eachlabs@eachlabs`, then `/reload-plugins`.
 
 ## Sign in
 
@@ -58,8 +61,9 @@ whole job, and runs it if one fits.
 
 ## Cards in the conversation
 
-In Claude Chat and Claude Desktop some answers come with a small card instead
-of plain text. Claude Code shows the same results as text.
+In the chat apps, Claude Chat (claude.ai) and Claude Desktop, some answers come
+with a small card instead of plain text. Terminals such as Claude Code show the
+same results as text.
 
 | You see | When |
 | --- | --- |
