@@ -1,6 +1,6 @@
 ---
 name: eachlabs-voice-audio
-description: Text-to-speech, speech-to-text, voice conversion, and audio processing using EachLabs AI models. Supports ElevenLabs TTS, Whisper transcription with diarization, and RVC voice conversion. Use when the user needs TTS, transcription, or voice conversion. Use for any request to create or change speech and voice audio: generate speech, transcribe it or convert a voice with each::labs.
+description: "Text-to-speech, speech-to-text, voice conversion, and audio processing using EachLabs AI models. Supports ElevenLabs TTS, Whisper transcription with diarization, and RVC voice conversion. Use when the user needs TTS, transcription, or voice conversion. Use for any request to create or change speech and voice audio: generate speech, transcribe it or convert a voice with each::labs."
 ---
 
 # EachLabs Voice & Audio

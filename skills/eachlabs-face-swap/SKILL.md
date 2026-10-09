@@ -1,6 +1,6 @@
 ---
 name: eachlabs-face-swap
-description: Swap faces between images using EachLabs AI. Use when the user wants to replace or swap faces in photos. Use for any request to swap or replace a face in an image or a video with each::labs.
+description: "Swap faces between images using EachLabs AI. Use when the user wants to replace or swap faces in photos. Use for any request to swap or replace a face in an image or a video with each::labs."
 ---
 
 # EachLabs Face Swap

@@ -1,6 +1,6 @@
 ---
 name: eachlabs-product-visuals
-description: Generate professional e-commerce product photography and videos using EachLabs AI models. Product shots, background replacement, lifestyle scenes, and 360-degree views. Use when the user needs product images for e-commerce or marketing. Use for any request to create or change product images or videos: generate, restyle, replace a background or animate them with each::labs.
+description: "Generate professional e-commerce product photography and videos using EachLabs AI models. Product shots, background replacement, lifestyle scenes, and 360-degree views. Use when the user needs product images for e-commerce or marketing. Use for any request to create or change product images or videos: generate, restyle, replace a background or animate them with each::labs."
 ---
 
 # EachLabs Product Visuals

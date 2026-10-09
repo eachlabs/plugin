@@ -1,6 +1,6 @@
 ---
 name: eachlabs-workflows
-description: Run and inspect multi-step AI workflows that chain multiple EachLabs models into one call. List the organization's workflows, read a workflow's versions and inputs, trigger a version and read the execution's outputs. Use when the user wants to run an existing workflow or check one that is running, and whenever a task chains several models, reuses a fixed prompt, needs a fallback model, runs steps in parallel, routes on a condition, or calls an HTTP API between model steps: check for a matching workflow before chaining models by hand. Building or editing workflows happens in the each::labs dashboard.
+description: "Run and inspect multi-step AI workflows that chain multiple EachLabs models into one call. List the organization's workflows, read a workflow's versions and inputs, trigger a version and read the execution's outputs. Use when the user wants to run an existing workflow or check one that is running, and whenever a task chains several models, reuses a fixed prompt, needs a fallback model, runs steps in parallel, routes on a condition, or calls an HTTP API between model steps: check for a matching workflow before chaining models by hand. Building or editing workflows happens in the each::labs dashboard."
 ---
 
 # EachLabs Workflows

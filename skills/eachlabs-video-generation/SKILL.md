@@ -1,6 +1,6 @@
 ---
 name: eachlabs-video-generation
-description: Generate new videos from text prompts, images, or reference inputs using EachLabs AI models. Supports text-to-video, image-to-video, transitions, motion control, talking head, and avatar generation. Use when the user wants to create new video content. For editing existing videos, see eachlabs-video-edit. Use for any request to create a new video from text, an image or a reference: generate or animate it with each::labs.
+description: "Generate new videos from text prompts, images, or reference inputs using EachLabs AI models. Supports text-to-video, image-to-video, transitions, motion control, talking head, and avatar generation. Use when the user wants to create new video content. For editing existing videos, see eachlabs-video-edit. Use for any request to create a new video from text, an image or a reference: generate or animate it with each::labs."
 ---
 
 # EachLabs Video Generation

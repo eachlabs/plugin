@@ -1,6 +1,6 @@
 ---
 name: synthetic-model
-description: A model skill made up for the converter tests.
+description: "A model skill made up for the converter tests."
 ---
 
 # Synthetic Model

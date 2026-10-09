@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import { parseCurl, splitCommands } from "../curl.mjs";
 import { convertCommandBlock, convertCurl } from "../endpoints.mjs";
-import { appendToDescription, buildFrontmatter } from "../markdown.mjs";
+import { buildFrontmatter, descriptionValue } from "../markdown.mjs";
 import { MEDIA_SENTENCES, mediaSentence } from "../media.mjs";
 import { applySkillRewrites } from "../rewrites.mjs";
 import { newCtx } from "./helpers.mjs";
@@ -113,14 +113,26 @@ describe("buildFrontmatter: the media sentence", () => {
   test("appends the sentence to a plain description", () => {
     assert.equal(
       buildFrontmatter(fm, "eachlabs-image-edit", undefined, "Use it for media."),
-      "---\nname: eachlabs-image-edit\ndescription: Edit images. Use it for media.\n---\n"
+      '---\nname: eachlabs-image-edit\ndescription: "Edit images. Use it for media."\n---\n'
     );
   });
-  test("keeps a quoted description quoted", () => {
-    assert.equal(appendToDescription('description: "Edit images."', "Use it."), 'description: "Edit images. Use it."');
-  });
   test("an override replaces the description and takes no sentence", () => {
-    assert.match(buildFrontmatter(fm, "eachlabs-image-edit", "Run workflows.", "Use it."), /description: Run workflows\.\n/);
+    assert.match(buildFrontmatter(fm, "eachlabs-image-edit", "Run workflows.", "Use it."), /description: "Run workflows\."\n/);
+  });
+  test("quotes a description holding a colon, a hash or quotes", () => {
+    const tricky = 'name: x\ndescription: Supports: text-to-video #1 and "quotes"';
+    assert.equal(
+      buildFrontmatter(tricky, "x", undefined, "Use it."),
+      '---\nname: x\ndescription: "Supports: text-to-video #1 and \\"quotes\\" Use it."\n---\n'
+    );
+  });
+});
+
+describe("descriptionValue: the text of the source line", () => {
+  test("reads plain, double-quoted and single-quoted values", () => {
+    assert.equal(descriptionValue("description: Edit images.  "), "Edit images.");
+    assert.equal(descriptionValue('description: "Say \\"hi\\": now"'), 'Say "hi": now');
+    assert.equal(descriptionValue("description: 'It''s: here'"), "It's: here");
   });
 });
 

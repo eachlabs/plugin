@@ -1,6 +1,6 @@
 ---
 name: bytedance-seedance-2-0
-description: Generate cinematic videos with native synchronized audio using ByteDance Seedance 2.0 (Fast) via EachLabs. Supports text-to-video (bytedance-seedance-2-0-text-to-video-fast) and image-to-video (bytedance-seedance-2-0-image-to-video-fast). Use when the user specifically asks for Seedance 2.0, wants native audio with the video, realistic physics, director-level camera control, or 4–15 second clips up to 720p. Use for any request to create a video, with its sound, from text or an image: generate or animate it with each::labs.
+description: "Generate cinematic videos with native synchronized audio using ByteDance Seedance 2.0 (Fast) via EachLabs. Supports text-to-video (bytedance-seedance-2-0-text-to-video-fast) and image-to-video (bytedance-seedance-2-0-image-to-video-fast). Use when the user specifically asks for Seedance 2.0, wants native audio with the video, realistic physics, director-level camera control, or 4–15 second clips up to 720p. Use for any request to create a video, with its sound, from text or an image: generate or animate it with each::labs."
 ---
 
 # ByteDance Seedance 2.0 (Fast)

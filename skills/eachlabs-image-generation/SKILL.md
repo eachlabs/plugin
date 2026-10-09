@@ -1,6 +1,6 @@
 ---
 name: eachlabs-image-generation
-description: Generate new images from text prompts using EachLabs AI models. Supports text-to-image with multiple model families including Flux, GPT Image, Gemini, Imagen, Seedream, and more. Use when the user wants to create new images from text. For editing existing images, see eachlabs-image-edit. Use for any request to create a new image from text with each::labs.
+description: "Generate new images from text prompts using EachLabs AI models. Supports text-to-image with multiple model families including Flux, GPT Image, Gemini, Imagen, Seedream, and more. Use when the user wants to create new images from text. For editing existing images, see eachlabs-image-edit. Use for any request to create a new image from text with each::labs."
 ---
 
 # EachLabs Image Generation

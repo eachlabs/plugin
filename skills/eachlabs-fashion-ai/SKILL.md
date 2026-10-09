@@ -1,6 +1,6 @@
 ---
 name: eachlabs-fashion-ai
-description: Generate fashion model imagery, virtual try-on, runway videos, and campaign visuals using EachLabs AI. Use when the user needs fashion content, model photography, or virtual try-on. Use for any request to create or change fashion images or videos: generate, restyle, try clothes on or animate them with each::labs.
+description: "Generate fashion model imagery, virtual try-on, runway videos, and campaign visuals using EachLabs AI. Use when the user needs fashion content, model photography, or virtual try-on. Use for any request to create or change fashion images or videos: generate, restyle, try clothes on or animate them with each::labs."
 ---
 
 # EachLabs Fashion AI

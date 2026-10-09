@@ -1,6 +1,6 @@
 ---
 name: legacy-workflows
-description: A skill that still calls the legacy workflows host.
+description: "A skill that still calls the legacy workflows host."
 ---
 
 # Legacy Workflows
