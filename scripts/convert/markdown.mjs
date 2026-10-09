@@ -12,21 +12,23 @@ export function splitFrontmatter(text) {
 export function buildFrontmatter(frontmatter, expectedName, descriptionOverride, descriptionSuffix) {
   const lines = frontmatter.split("\n");
   const name = lines.find((l) => /^name:/.test(l));
-  let description = lines.find((l) => /^description:/.test(l));
+  const description = lines.find((l) => /^description:/.test(l));
   if (!name || !description) throw new Error("frontmatter without name or description");
   if (name.replace(/^name:\s*/, "").trim() !== expectedName) {
     throw new Error(`frontmatter name does not match folder ${expectedName}`);
   }
-  if (descriptionOverride) description = `description: ${descriptionOverride}`;
-  else if (descriptionSuffix) description = appendToDescription(description, descriptionSuffix);
-  return `---\n${name}\n${description}\n---\n`;
+  let text = descriptionOverride ?? descriptionValue(description);
+  if (!descriptionOverride && descriptionSuffix) text = `${text} ${descriptionSuffix}`;
+  // A JSON string is valid YAML. A plain value is not once it holds ": " or " #".
+  return `---\n${name}\ndescription: ${JSON.stringify(text)}\n---\n`;
 }
 
-// A quoted description keeps its quotes, with the sentence inside them.
-export function appendToDescription(line, sentence) {
-  const m = line.match(/^(description:\s*)(["'])(.*)\2\s*$/);
-  if (m) return `${m[1]}${m[2]}${m[3].trimEnd()} ${sentence}${m[2]}`;
-  return `${line.trimEnd()} ${sentence}`;
+// The text of a one-line `description:`, plain or quoted.
+export function descriptionValue(line) {
+  const value = line.replace(/^description:/, "").trim();
+  if (/^".*"$/.test(value)) return JSON.parse(value);
+  if (/^'.*'$/.test(value)) return value.slice(1, -1).replaceAll("''", "'");
+  return value;
 }
 
 function headingLevel(line) {

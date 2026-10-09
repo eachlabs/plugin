@@ -1,6 +1,6 @@
 ---
 name: eachlabs-video-edit
-description: Edit, transform, extend, upscale, and enhance videos using EachLabs AI models. Supports lip sync, video translation, subtitle generation, audio merging, style transfer, and video extension. Use when the user wants to edit or transform existing video content. Use for any request to change a video: edit, restyle, extend, upscale, lip-sync, translate, subtitle or add audio to it with each::labs.
+description: "Edit, transform, extend, upscale, and enhance videos using EachLabs AI models. Supports lip sync, video translation, subtitle generation, audio merging, style transfer, and video extension. Use when the user wants to edit or transform existing video content. Use for any request to change a video: edit, restyle, extend, upscale, lip-sync, translate, subtitle or add audio to it with each::labs."
 ---
 
 # EachLabs Video Edit

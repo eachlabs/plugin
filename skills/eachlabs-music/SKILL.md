@@ -1,6 +1,6 @@
 ---
 name: eachlabs-music
-description: Generate songs, instrumentals, lyrics, and podcasts using EachLabs Mureka AI models. Also supports song extension, stem separation, and song recognition. Use when the user wants to create music, lyrics, or audio content. Use for any request to create or change music or other audio: generate a song, an instrumental, lyrics or a podcast, extend a song or split it into stems with each::labs.
+description: "Generate songs, instrumentals, lyrics, and podcasts using EachLabs Mureka AI models. Also supports song extension, stem separation, and song recognition. Use when the user wants to create music, lyrics, or audio content. Use for any request to create or change music or other audio: generate a song, an instrumental, lyrics or a podcast, extend a song or split it into stems with each::labs."
 ---
 
 # EachLabs Music

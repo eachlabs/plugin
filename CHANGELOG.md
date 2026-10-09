@@ -3,6 +3,10 @@
 Each release changes `version` in `.claude-plugin/plugin.json`; Claude updates an
 installed plugin only when that number changes.
 
+## 0.1.2
+
+- Quote skill descriptions for valid YAML and describe marketplace install
+
 ## 0.1.1
 
 - Ask in the chat instead of opening cards in apps without cards

@@ -1,6 +1,6 @@
 ---
 name: eachlabs-image-edit
-description: Edit, transform, upscale, and enhance images using EachLabs AI models. Supports image editing, style transfer, background removal, upscaling, inpainting, face swap, virtual try-on, 3D generation, and image analysis. Use when the user wants to edit or transform existing images. Use for any request to change an image: edit, restyle, retouch, upscale, remove or replace a background, or try clothes on with each::labs.
+description: "Edit, transform, upscale, and enhance images using EachLabs AI models. Supports image editing, style transfer, background removal, upscaling, inpainting, face swap, virtual try-on, 3D generation, and image analysis. Use when the user wants to edit or transform existing images. Use for any request to change an image: edit, restyle, retouch, upscale, remove or replace a background, or try clothes on with each::labs."
 ---
 
 # EachLabs Image Edit

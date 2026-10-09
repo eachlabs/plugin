@@ -1,6 +1,6 @@
 ---
 name: gpt-image-v2
-description: Generate and edit images using OpenAI's GPT Image v2 via EachLabs. Supports text-to-image (gpt-image-v2-text-to-image) and instruction-based editing (gpt-image-v2-edit). Use when the user specifically asks for GPT Image 2 / OpenAI image generation, or needs high-fidelity photorealism, precise text rendering, or reference-faithful edits. Use for any request to create or edit an image with GPT Image 2 on each::labs.
+description: "Generate and edit images using OpenAI's GPT Image v2 via EachLabs. Supports text-to-image (gpt-image-v2-text-to-image) and instruction-based editing (gpt-image-v2-edit). Use when the user specifically asks for GPT Image 2 / OpenAI image generation, or needs high-fidelity photorealism, precise text rendering, or reference-faithful edits. Use for any request to create or edit an image with GPT Image 2 on each::labs."
 ---
 
 # GPT Image v2
