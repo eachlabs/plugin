@@ -7,8 +7,10 @@ version is released.
 
 | Path | Contents |
 | --- | --- |
-| `.claude-plugin/plugin.json` | Plugin manifest |
-| `.claude-plugin/marketplace.json` | Marketplace listing this plugin, for Add marketplace |
+| `.claude-plugin/plugin.json` | Plugin manifest for Claude |
+| `.claude-plugin/marketplace.json` | Marketplace listing this plugin, for Add marketplace in Claude |
+| `.codex-plugin/plugin.json` | Plugin manifest for Codex: the same name, version and description, plus how Codex lists the plugin |
+| `.agents/plugins/marketplace.json` | Marketplace listing this plugin, for `codex plugin marketplace add` |
 | `.mcp.json` | The connector URL, `https://mcp.eachlabs.ai/mcp` |
 | `CHANGELOG.md` | What each version changes |
 | `LICENSE` | MIT |
@@ -29,10 +31,12 @@ check the result: `node scripts/check-skills.mjs`, and
 ## How to release
 
 1. Put one `version/patch`, `version/minor` or `version/major` label on the pull request.
-2. The `version` workflow writes that version into `plugin.json` and `CHANGELOG.md` on the branch.
+2. The `version` workflow writes that version into both `plugin.json` files and `CHANGELOG.md` on the branch.
 3. Merging tags the merge commit `vX.Y.Z`.
 
-A pull request that changes `skills/`, `.mcp.json`, `.claude-plugin/`, `hooks/` or
-`commands/` fails without exactly one of those labels, because Claude updates an
-installed plugin only when its version changes. The daily skills sync labels its
+A pull request that changes `skills/`, `.mcp.json`, `.claude-plugin/`,
+`.codex-plugin/`, `.agents/`, `hooks/` or `commands/` fails without exactly one of
+those labels, because Claude and Codex update an installed plugin only when its
+version changes. `scripts/check-manifests.mjs` fails when the two manifests'
+name, version or description differ. The daily skills sync labels its
 pull request `version/patch`.

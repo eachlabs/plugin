@@ -1,7 +1,12 @@
 # Changelog
 
-Each release changes `version` in `.claude-plugin/plugin.json`; Claude updates an
-installed plugin only when that number changes.
+Each release changes `version` in `.claude-plugin/plugin.json` and
+`.codex-plugin/plugin.json`; Claude and Codex update an installed plugin only
+when that number changes.
+
+## 0.2.0
+
+- Add a Codex manifest and marketplace for the plugin
 
 ## 0.1.3
 
