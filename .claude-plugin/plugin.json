@@ -1,16 +1,16 @@
 {
   "name": "eachlabs",
   "displayName": "each::labs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Generate and edit images, video, music and voice with each::labs models, and run your organization's each::labs workflows, from a conversation. Cut, crop, resize and convert media, and pick files, settings and variants on interactive cards inside the chat. Sign in with your each::labs account; no API key needed.",
   "author": {
     "name": "each::labs",
     "url": "https://www.eachlabs.ai"
   },
   "homepage": "https://www.eachlabs.ai",
-  "repository": "https://github.com/eachlabs/claude-plugin",
+  "repository": "https://github.com/eachlabs/plugin",
   "license": "MIT",
-  "documentationUrl": "https://github.com/eachlabs/claude-plugin#readme",
+  "documentationUrl": "https://github.com/eachlabs/plugin#readme",
   "supportUrl": "https://www.eachlabs.ai/contact-us",
   "privacyPolicyUrl": "https://www.eachlabs.ai/privacy-policy",
   "termsOfServiceUrl": "https://www.eachlabs.ai/terms-of-service",

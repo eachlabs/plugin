@@ -11,12 +11,12 @@ You sign in with your each::labs account; there is no API key to paste.
 
 ## Install
 
-The plugin is installed from its own marketplace, `eachlabs/claude-plugin`.
+The plugin is installed from its own marketplace, `eachlabs/plugin`.
 
 | Where | How |
 | --- | --- |
-| Claude Chat, Claude Desktop | Customize, Plugins, Add marketplace, enter `eachlabs/claude-plugin`, then add the eachlabs plugin |
-| Claude Code | `claude plugin marketplace add eachlabs/claude-plugin`, then `claude plugin install eachlabs@eachlabs` |
+| Claude Chat, Claude Desktop | Customize, Plugins, Add marketplace, enter `eachlabs/plugin`, then add the eachlabs plugin |
+| Claude Code | `claude plugin marketplace add eachlabs/plugin`, then `claude plugin install eachlabs@eachlabs` |
 
 **Team and Enterprise.** An Owner can add the connector
 `https://mcp.eachlabs.ai/mcp` for the whole organization. Each member adds the
