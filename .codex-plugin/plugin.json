@@ -1,0 +1,44 @@
+{
+  "name": "eachlabs",
+  "version": "0.1.3",
+  "description": "Generate and edit images, video, music and voice with each::labs models, and run your organization's each::labs workflows, from a conversation. Cut, crop, resize and convert media, and pick files, settings and variants on interactive cards inside the chat. Sign in with your each::labs account; no API key needed.",
+  "author": {
+    "name": "each::labs",
+    "url": "https://www.eachlabs.ai"
+  },
+  "homepage": "https://www.eachlabs.ai",
+  "repository": "https://github.com/eachlabs/plugin",
+  "license": "MIT",
+  "keywords": [
+    "image-generation",
+    "image-editing",
+    "video-generation",
+    "video-editing",
+    "music",
+    "voice",
+    "text-to-speech",
+    "workflows",
+    "media",
+    "audio"
+  ],
+  "skills": "./skills",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "each::labs",
+    "shortDescription": "Generate and edit media",
+    "longDescription": "Generate and edit images, video, music and voice with each::labs models, and run your organization's each::labs workflows, from a conversation. Cut, crop, resize and convert media, and pick files, settings and variants on interactive cards inside the chat. Sign in with your each::labs account; no API key needed. Every run is billed to the each::labs organization picked at sign-in.",
+    "developerName": "each::labs",
+    "category": "Creativity",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Generate a product photo of a white sneaker on a marble table, soft studio light",
+      "Turn this image into a 5-second clip where the camera slowly pushes in",
+      "Which workflows do we have?"
+    ],
+    "websiteURL": "https://www.eachlabs.ai",
+    "supportURL": "https://www.eachlabs.ai/contact-us",
+    "privacyPolicyURL": "https://www.eachlabs.ai/privacy-policy",
+    "termsOfServiceURL": "https://www.eachlabs.ai/terms-of-service",
+    "logo": "./logo.png"
+  }
+}

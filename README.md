@@ -1,4 +1,4 @@
-# each::labs plugin for Claude
+# each::labs plugin for Claude and Codex
 
 Generate and edit images, video, music and voice with each::labs models, and
 run your organization's each::labs workflows, by asking in a conversation. The
@@ -6,17 +6,21 @@ plugin also cuts, crops, resizes and converts media, and shows small
 interactive cards inside the chat where you upload a file, adjust a model's
 settings or pick one of several results.
 
-It works in Claude Chat (claude.ai), Claude Desktop, Cowork and Claude Code.
+It works in Claude Chat (claude.ai), Claude Desktop, Cowork and Claude Code,
+and in the Codex app and Codex CLI.
 You sign in with your each::labs account; there is no API key to paste.
 
 ## Install
 
 The plugin is installed from its own marketplace, `eachlabs/plugin`.
+The same repository serves Claude and Codex.
 
 | Where | How |
 | --- | --- |
 | Claude Chat, Claude Desktop | Customize, Plugins, Add marketplace, enter `eachlabs/plugin`, then add the eachlabs plugin |
 | Claude Code | `claude plugin marketplace add eachlabs/plugin`, then `claude plugin install eachlabs@eachlabs` |
+| Codex CLI | `codex plugin marketplace add eachlabs/plugin`, then `codex plugin add eachlabs@eachlabs`, then `codex mcp login eachlabs` |
+| Codex app | Add the marketplace with the CLI command above, then install the eachlabs plugin from Plugins |
 
 **Team and Enterprise.** An Owner can add the connector
 `https://mcp.eachlabs.ai/mcp` for the whole organization. Each member adds the
@@ -28,7 +32,8 @@ with a personal account is billed there instead.
 
 **Updating.** In Claude Chat and Claude Desktop a plugin installed from the
 marketplace updates automatically, with no restart. In Claude Code, run
-`claude plugin update eachlabs@eachlabs`, then `/reload-plugins`.
+`claude plugin update eachlabs@eachlabs`, then `/reload-plugins`. In Codex, run
+`codex plugin marketplace upgrade`.
 
 ## Sign in
 
@@ -61,9 +66,9 @@ whole job, and runs it if one fits.
 
 ## Cards in the conversation
 
-In the chat apps, Claude Chat (claude.ai) and Claude Desktop, some answers come
-with a small card instead of plain text. Terminals such as Claude Code show the
-same results as text.
+In the chat apps, Claude Chat (claude.ai), Claude Desktop and the Codex app,
+some answers come with a small card instead of plain text. Terminals such as
+Claude Code and Codex CLI show the same results as text.
 
 | You see | When |
 | --- | --- |
