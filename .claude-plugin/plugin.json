@@ -8,9 +8,9 @@
     "url": "https://www.eachlabs.ai"
   },
   "homepage": "https://www.eachlabs.ai",
-  "repository": "https://github.com/eachlabs/claude-plugin",
+  "repository": "https://github.com/eachlabs/plugin",
   "license": "MIT",
-  "documentationUrl": "https://github.com/eachlabs/claude-plugin#readme",
+  "documentationUrl": "https://github.com/eachlabs/plugin#readme",
   "supportUrl": "https://www.eachlabs.ai/contact-us",
   "privacyPolicyUrl": "https://www.eachlabs.ai/privacy-policy",
   "termsOfServiceUrl": "https://www.eachlabs.ai/terms-of-service",
