@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.eachlabs/mcp",
+  "name": "ai.eachlabs/mcp",
   "title": "each::labs",
   "description": "AI media built for production. AI orchestration for image, video and audio, in any AI app.",
   "version": "0.2.0",
