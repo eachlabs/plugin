@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Writes the next version into both plugin manifests and CHANGELOG.md.
+# Writes the next version into both plugin manifests, the MCP Registry entry
+# (server.json) and CHANGELOG.md.
 #
 # Usage: scripts/bump-version.sh <patch|minor|major> "<changelog line>"
 #
@@ -39,7 +40,7 @@ const newer = (a, b) => {
   return false;
 };
 
-for (const manifest of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]) {
+for (const manifest of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", "server.json"]) {
   const plugin = JSON.parse(fs.readFileSync(manifest, "utf8"));
   plugin.version = next;
   fs.writeFileSync(manifest, JSON.stringify(plugin, null, 2) + "\n");
@@ -47,9 +48,9 @@ for (const manifest of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json
 
 const file = "CHANGELOG.md";
 const intro =
-  "# Changelog\n\nEach release changes `version` in `.claude-plugin/plugin.json` and\n" +
-  "`.codex-plugin/plugin.json`; Claude and Codex update an installed plugin only\n" +
-  "when that number changes.\n";
+  "# Changelog\n\nEach release changes `version` in `.claude-plugin/plugin.json`,\n" +
+  "`.codex-plugin/plugin.json` and `server.json`; Claude and Codex update an\n" +
+  "installed plugin only when that number changes.\n";
 const text = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : intro;
 const heading = /^## (\d+\.\d+\.\d+)$/m.exec(text);
 let out;

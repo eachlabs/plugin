@@ -1,8 +1,8 @@
 # Changelog
 
-Each release changes `version` in `.claude-plugin/plugin.json` and
-`.codex-plugin/plugin.json`; Claude and Codex update an installed plugin only
-when that number changes.
+Each release changes `version` in `.claude-plugin/plugin.json`,
+`.codex-plugin/plugin.json` and `server.json`; Claude and Codex update an
+installed plugin only when that number changes.
 
 ## 0.2.0
 
