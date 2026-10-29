@@ -4,6 +4,10 @@ Each release changes `version` in `.claude-plugin/plugin.json`,
 `.codex-plugin/plugin.json`, `.grok-plugin/plugin.json` and `server.json`;
 Claude, Codex and Grok Build update an installed plugin only when that number changes.
 
+## 0.3.0
+
+- Add a Grok Build manifest
+
 ## 0.2.0
 
 - Add a Codex manifest and marketplace for the plugin
