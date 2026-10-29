@@ -1,0 +1,17 @@
+{
+  "name": "eachlabs",
+  "version": "0.3.0",
+  "description": "Generate and edit images, video, music and voice with each::labs models, and run your organization's each::labs workflows, from a conversation. Cut, crop, resize and convert media. Sign in with your each::labs account; no API key needed.",
+  "author": {
+    "name": "each::labs",
+    "url": "https://www.eachlabs.ai"
+  },
+  "homepage": "https://www.eachlabs.ai",
+  "repository": "https://github.com/eachlabs/plugin",
+  "license": "MIT",
+  "keywords": [
+    "eachlabs",
+    "each::labs",
+    "each labs"
+  ]
+}

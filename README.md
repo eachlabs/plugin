@@ -1,4 +1,4 @@
-# each::labs plugin for Claude and Codex
+# each::labs plugin for Claude, Codex and Grok Build
 
 Generate and edit images, video, music and voice with each::labs models, and
 run your organization's each::labs workflows, by asking in a conversation. The
@@ -7,13 +7,13 @@ interactive cards inside the chat where you upload a file, adjust a model's
 settings or pick one of several results.
 
 It works in Claude Chat (claude.ai), Claude Desktop, Cowork and Claude Code,
-and in the Codex app and Codex CLI.
+and in the Codex app, Codex CLI and Grok Build.
 You sign in with your each::labs account; there is no API key to paste.
 
 ## Install
 
 The plugin is installed from its own marketplace, `eachlabs/plugin`.
-The same repository serves Claude and Codex.
+The same repository serves Claude, Codex and Grok Build.
 
 | Where | How |
 | --- | --- |
@@ -21,6 +21,7 @@ The same repository serves Claude and Codex.
 | Claude Code | `claude plugin marketplace add eachlabs/plugin`, then `claude plugin install eachlabs@eachlabs` |
 | Codex CLI | `codex plugin marketplace add eachlabs/plugin`, then `codex plugin add eachlabs@eachlabs`, then `codex mcp login eachlabs` |
 | Codex app | Add the marketplace with the CLI command above, then install the eachlabs plugin from Plugins |
+| Grok Build | `grok plugin install eachlabs/plugin --trust`, then sign in when Grok opens the each::labs page in your browser |
 
 **Team and Enterprise.** An Owner can add the connector
 `https://mcp.eachlabs.ai/mcp` for the whole organization. Each member adds the
@@ -33,7 +34,7 @@ with a personal account is billed there instead.
 **Updating.** In Claude Chat and Claude Desktop a plugin installed from the
 marketplace updates automatically, with no restart. In Claude Code, run
 `claude plugin update eachlabs@eachlabs`, then `/reload-plugins`. In Codex, run
-`codex plugin marketplace upgrade`.
+`codex plugin marketplace upgrade`. In Grok Build, run `grok plugin update eachlabs`.
 
 ## Sign in
 
@@ -41,6 +42,9 @@ After installing, open the plugin's Connectors tab and choose Connect. A
 browser window opens on each::labs: sign in and pick the organization to use.
 Every model run and workflow run is billed to that organization, the same way
 as a run from the each::labs dashboard or API.
+
+In Grok Build, the browser opens the first time the plugin is used. To sign in
+again, open `/mcps` and press `i` on eachlabs.
 
 ## What to ask
 
@@ -68,7 +72,7 @@ whole job, and runs it if one fits.
 
 In the chat apps, Claude Chat (claude.ai), Claude Desktop and the Codex app,
 some answers come with a small card instead of plain text. Terminals such as
-Claude Code and Codex CLI show the same results as text.
+Claude Code, Codex CLI and Grok Build show the same results as text.
 
 | You see | When |
 | --- | --- |
@@ -129,6 +133,10 @@ settings. Ask to change any of them and the settings form appears.
 | The wrong organization is billed | Disconnect the connector and sign in again, picking the right organization |
 
 ## Data
+
+The plugin connects to one address, `https://mcp.eachlabs.ai/mcp`, and needs
+only an each::labs sign-in: no API key, and no scripts or hooks run on your
+machine.
 
 Your prompts and input file links go to the each::labs MCP server, which runs
 them on the each::labs API under the organization you picked at sign-in. A file

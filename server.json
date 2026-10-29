@@ -3,7 +3,7 @@
   "name": "ai.eachlabs/mcp",
   "title": "each::labs",
   "description": "AI media built for production. AI orchestration for image, video and audio, in any AI app.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "websiteUrl": "https://docs.eachlabs.ai/mcp-server",
   "repository": {
     "url": "https://github.com/eachlabs/plugin",

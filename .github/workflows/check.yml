@@ -15,7 +15,7 @@ jobs:
           node-version: 22
       - name: No curl, key or host left in a skill
         run: node scripts/check-skills.mjs
-      - name: Claude and Codex manifests agree
+      - name: Claude, Codex and Grok manifests agree
         run: node scripts/check-manifests.mjs
       - name: Clone eachlabs/skills at the commit skills/ was made from
         run: |
