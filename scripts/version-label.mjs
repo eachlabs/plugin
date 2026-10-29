@@ -10,7 +10,7 @@
 
 import { execFileSync } from "node:child_process";
 
-const SHIPPED = [/^skills\//, /^\.mcp\.json$/, /^\.claude-plugin\//, /^\.codex-plugin\//, /^\.agents\//, /^hooks\//, /^commands\//];
+const SHIPPED = [/^skills\//, /^\.mcp\.json$/, /^\.claude-plugin\//, /^\.codex-plugin\//, /^\.grok-plugin\//, /^\.agents\//, /^hooks\//, /^commands\//];
 const LABELS = ["version/patch", "version/minor", "version/major"];
 
 const [base, labelsJson] = process.argv.slice(2);

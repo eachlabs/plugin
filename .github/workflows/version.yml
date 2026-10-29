@@ -1,7 +1,7 @@
 name: version
 
 # A pull request carries one version/patch, version/minor or version/major label.
-# While it is open, this writes the version that label gives into both plugin.json files,
+# While it is open, this writes the version that label gives into the three plugin.json files,
 # server.json and CHANGELOG.md on the pull request's branch; when it merges, this tags
 # the merge commit with that version and publishes server.json to the MCP Registry.
 # Nothing here pushes to main.
@@ -49,18 +49,18 @@ jobs:
           SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
         run: |
           version="$(bash scripts/bump-version.sh "$PART" "$TITLE")"
-          node -e 'for (const f of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", "server.json"]) JSON.parse(require("fs").readFileSync(f))'
-          if git diff --quiet -- .claude-plugin/plugin.json .codex-plugin/plugin.json server.json CHANGELOG.md; then
+          node -e 'for (const f of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".grok-plugin/plugin.json", "server.json"]) JSON.parse(require("fs").readFileSync(f))'
+          if git diff --quiet -- .claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json server.json CHANGELOG.md; then
             echo "Version $version is already written." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           if [ "$SAME_REPO" != "true" ]; then
-            echo "::error::A pull request from a fork cannot be updated; write version $version into both plugin.json files, server.json and CHANGELOG.md by hand."
+            echo "::error::A pull request from a fork cannot be updated; write version $version into the three plugin.json files, server.json and CHANGELOG.md by hand."
             exit 1
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .claude-plugin/plugin.json .codex-plugin/plugin.json server.json CHANGELOG.md
+          git add .claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json server.json CHANGELOG.md
           git commit -q -m "Release $version"
           git push origin "HEAD:refs/heads/$HEAD_REF"
           echo "Wrote version $version." >> "$GITHUB_STEP_SUMMARY"

@@ -66,7 +66,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -C "$BRANCH"
-          git add -A -- skills .claude-plugin/plugin.json .codex-plugin/plugin.json server.json CHANGELOG.md
+          git add -A -- skills .claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json server.json CHANGELOG.md
           git commit -q -m "Sync skills from eachlabs/skills $short"
           git push --force origin "HEAD:refs/heads/$BRANCH"
 
