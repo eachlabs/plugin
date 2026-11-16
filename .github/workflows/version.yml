@@ -1,7 +1,7 @@
 name: version
 
 # A pull request carries one version/patch, version/minor or version/major label.
-# While it is open, this writes the version that label gives into the three plugin.json files,
+# While it is open, this writes the version that label gives into the four plugin.json manifests (.claude-plugin, .codex-plugin, .grok-plugin and hermes),
 # server.json and CHANGELOG.md on the pull request's branch; when it merges, this tags
 # the merge commit with that version and publishes server.json to the MCP Registry.
 # Nothing here pushes to main.
@@ -84,7 +84,7 @@ jobs:
         run: |
           count="$(node -p 'JSON.parse(process.env.LABELS).filter((l) => l.startsWith("version/")).length')"
           if [ "$count" != "1" ]; then
-            echo "::error::This pull request merged with $count version/* labels, so it is not tagged. Tag the merge commit by hand with the version in plugin.json."
+            echo "::error::This pull request merged with $count version/* labels, so it is not tagged. Tag the merge commit by hand with the version in .claude-plugin/plugin.json."
             exit 1
           fi
 
