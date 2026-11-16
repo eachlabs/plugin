@@ -6,7 +6,7 @@
 # Usage: scripts/build-hermes.sh <out dir>
 set -euo pipefail
 
-if [ $# -ne 1 ]; then
+if [ $# -ne 1 ] || [ -z "$1" ]; then
   echo "Usage: scripts/build-hermes.sh <out dir>" >&2
   exit 2
 fi
