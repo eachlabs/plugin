@@ -1,24 +1,31 @@
 name: version
 
 # A pull request carries one version/patch, version/minor or version/major label.
-# While it is open, this writes the version that label gives into the three plugin.json files,
+# While it is open, this writes the version that label gives into the four plugin.json manifests (.claude-plugin, .codex-plugin, .grok-plugin and hermes),
 # server.json and CHANGELOG.md on the pull request's branch; when it merges, this tags
 # the merge commit with that version and publishes server.json to the MCP Registry.
+# After a release is tagged, it also builds the Hermes Agent package onto the dist/hermes branch.
 # Nothing here pushes to main.
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled, closed]
+  # Builds dist/hermes from <ref>, for the first package or a rebuild. No other job runs.
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Release tag to build, for example v0.4.0
+        required: true
 
 permissions:
   contents: write
 
 concurrency:
-  group: version-${{ github.event.pull_request.number }}
+  group: version-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: false
 
 jobs:
   bump:
-    if: github.event.action != 'closed'
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -49,25 +56,25 @@ jobs:
           SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
         run: |
           version="$(bash scripts/bump-version.sh "$PART" "$TITLE")"
-          node -e 'for (const f of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".grok-plugin/plugin.json", "server.json"]) JSON.parse(require("fs").readFileSync(f))'
-          if git diff --quiet -- .claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json server.json CHANGELOG.md; then
+          node -e 'for (const f of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".grok-plugin/plugin.json", "hermes/plugin.json", "server.json"]) JSON.parse(require("fs").readFileSync(f))'
+          if git diff --quiet -- .claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json hermes/plugin.json server.json CHANGELOG.md; then
             echo "Version $version is already written." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           if [ "$SAME_REPO" != "true" ]; then
-            echo "::error::A pull request from a fork cannot be updated; write version $version into the three plugin.json files, server.json and CHANGELOG.md by hand."
+            echo "::error::A pull request from a fork cannot be updated; write version $version into the four plugin.json files, server.json and CHANGELOG.md by hand."
             exit 1
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json server.json CHANGELOG.md
+          git add .claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json hermes/plugin.json server.json CHANGELOG.md
           git commit -q -m "Release $version"
           git push origin "HEAD:refs/heads/$HEAD_REF"
           echo "Wrote version $version." >> "$GITHUB_STEP_SUMMARY"
 
   tag:
     if: >-
-      github.event.action == 'closed' && github.event.pull_request.merged == true &&
+      github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true &&
       (contains(github.event.pull_request.labels.*.name, 'version/patch') ||
        contains(github.event.pull_request.labels.*.name, 'version/minor') ||
        contains(github.event.pull_request.labels.*.name, 'version/major'))
@@ -84,7 +91,7 @@ jobs:
         run: |
           count="$(node -p 'JSON.parse(process.env.LABELS).filter((l) => l.startsWith("version/")).length')"
           if [ "$count" != "1" ]; then
-            echo "::error::This pull request merged with $count version/* labels, so it is not tagged. Tag the merge commit by hand with the version in plugin.json."
+            echo "::error::This pull request merged with $count version/* labels, so it is not tagged. Tag the merge commit by hand with the version in .claude-plugin/plugin.json."
             exit 1
           fi
 
@@ -109,7 +116,7 @@ jobs:
   publish:
     needs: tag
     # Only a release merged into main is published.
-    if: github.event.pull_request.base.ref == github.event.repository.default_branch
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == github.event.repository.default_branch
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -152,3 +159,74 @@ jobs:
           name="$(node -p 'require("./server.json").name')"
           version="$(node -p 'require("./server.json").version')"
           echo "Published $name@$version to the MCP Registry." >> "$GITHUB_STEP_SUMMARY"
+
+  # The Hermes catalog pins a commit and fetches it by hash, so the package can
+  # live on a branch of its own. A job here, not a workflow on the tag push: a tag
+  # pushed with GITHUB_TOKEN starts no other workflow.
+  hermes-dist:
+    needs: tag
+    # always() lets this run on a manual dispatch, where tag is skipped.
+    if: >-
+      always() && (github.event_name == 'workflow_dispatch' ||
+      (needs.tag.result == 'success' &&
+       github.event.pull_request.base.ref == github.event.repository.default_branch))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha || inputs.ref }}
+          fetch-depth: 0
+
+      - name: Check this commit is a release
+        id: release
+        run: |
+          version="$(node -p 'require("./hermes/plugin.json").version')"
+          claude_version="$(node -p 'require("./.claude-plugin/plugin.json").version')"
+          short="$(git rev-parse --short=7 HEAD)"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::The version in hermes/plugin.json is not like 1.2.3, so nothing is built."
+            exit 1
+          fi
+          if [ "$version" != "$claude_version" ]; then
+            echo "::error::hermes/plugin.json and .claude-plugin/plugin.json have different versions, so nothing is built."
+            exit 1
+          fi
+          if [ "$(git tag --points-at HEAD | grep -cxF "v$version")" != "1" ]; then
+            echo "::error::This commit does not carry the tag v$version, so nothing is built."
+            exit 1
+          fi
+          git fetch -q origin main
+          if ! git merge-base --is-ancestor HEAD FETCH_HEAD; then
+            echo "::error::v$version is not on main, so it is not built."
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "short=$short" >> "$GITHUB_OUTPUT"
+
+      - name: Build the package
+        run: scripts/build-hermes.sh "$RUNNER_TEMP/hermes"
+
+      - name: Commit the package to dist/hermes
+        env:
+          version: ${{ steps.release.outputs.version }}
+          short: ${{ steps.release.outputs.short }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin dist/hermes >/dev/null; then
+            git fetch origin dist/hermes
+            git switch -C dist/hermes FETCH_HEAD
+          else
+            git switch --orphan dist/hermes
+          fi
+          git rm -rfq --ignore-unmatch .
+          git clean -fdxq
+          cp -R "$RUNNER_TEMP/hermes/." .
+          git add -A
+          if git diff --cached --quiet; then
+            echo "dist/hermes already holds version $version." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -q -m "Build $version from $short"
+          git push origin dist/hermes
+          echo "Built version $version from $short on dist/hermes: $(git rev-parse HEAD)." >> "$GITHUB_STEP_SUMMARY"
