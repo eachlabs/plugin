@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: Branch, tag or commit to build the Hermes package from
-        default: main
+        description: Release tag to build, for example v0.4.0
+        required: true
 
 permissions:
   contents: write
@@ -177,13 +177,38 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha || inputs.ref }}
           fetch-depth: 0
 
-      - name: Build the package
+      - name: Check this commit is a release
+        id: release
         run: |
-          scripts/build-hermes.sh "$RUNNER_TEMP/hermes"
-          echo "version=$(node -p 'require("./hermes/plugin.json").version')" >> "$GITHUB_ENV"
-          echo "short=$(git rev-parse --short=7 HEAD)" >> "$GITHUB_ENV"
+          version="$(node -p 'require("./hermes/plugin.json").version')"
+          claude_version="$(node -p 'require("./.claude-plugin/plugin.json").version')"
+          short="$(git rev-parse --short=7 HEAD)"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::The version in hermes/plugin.json is not like 1.2.3, so nothing is built."
+            exit 1
+          fi
+          if [ "$version" != "$claude_version" ]; then
+            echo "::error::hermes/plugin.json and .claude-plugin/plugin.json have different versions, so nothing is built."
+            exit 1
+          fi
+          if [ "$(git tag --points-at HEAD | grep -cxF "v$version")" != "1" ]; then
+            echo "::error::This commit does not carry the tag v$version, so nothing is built."
+            exit 1
+          fi
+          if ! [[ "$short" =~ ^[0-9a-f]{7}$ ]]; then
+            echo "::error::The short commit id is not seven hex digits, so nothing is built."
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "short=$short" >> "$GITHUB_OUTPUT"
+
+      - name: Build the package
+        run: scripts/build-hermes.sh "$RUNNER_TEMP/hermes"
 
       - name: Commit the package to dist/hermes
+        env:
+          version: ${{ steps.release.outputs.version }}
+          short: ${{ steps.release.outputs.short }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
