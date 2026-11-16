@@ -13,8 +13,8 @@ version is released.
 | `.agents/plugins/marketplace.json` | Marketplace listing this plugin, for `codex plugin marketplace add` |
 | `.grok-plugin/plugin.json` | Plugin manifest for Grok Build: the same name and version, and a description without the cards, which a terminal does not show |
 | `hermes/plugin.json` | Agent Plugins v1 manifest for Hermes Agent: the same name and version; skills only, the server comes from Hermes's MCP catalog |
-| `hermes/skills/` | A copy of `skills/` for Hermes, written by `scripts/sync-skills.sh`; Hermes rejects symlinks out of its package |
-| `hermes/README.md` | The Hermes catalog page, shown from this folder |
+| `hermes/README.md` | The Hermes catalog page; it is the README of the `dist/hermes` branch |
+| `dist/hermes` branch | The Hermes package, built by `scripts/build-hermes.sh` after each release. The workflow owns it; do not push to it by hand |
 | `.mcp.json` | The connector URL, `https://mcp.eachlabs.ai/mcp` |
 | `server.json` | The server's entry in the [MCP Registry](https://registry.modelcontextprotocol.io), `ai.eachlabs/mcp` |
 | `CHANGELOG.md` | What each version changes |
@@ -25,9 +25,9 @@ version is released.
 
 ## Skills
 
-Do not edit `skills/` or `hermes/skills/` by hand. A daily job (`.github/workflows/sync-skills.yml`)
-regenerates them from `eachlabs/skills` and opens or updates one pull request
-when they change; it can also be started by hand from the Actions tab. To
+Do not edit `skills/` by hand. A daily job (`.github/workflows/sync-skills.yml`)
+regenerates it from `eachlabs/skills` and opens or updates one pull request
+when it changes; it can also be started by hand from the Actions tab. To
 regenerate locally:
 `node scripts/convert-skills.mjs --source <checkout of eachlabs/skills>`. To
 check the result: `node scripts/check-skills.mjs`, and
@@ -37,7 +37,7 @@ check the result: `node scripts/check-skills.mjs`, and
 
 1. Put one `version/patch`, `version/minor` or `version/major` label on the pull request.
 2. The `version` workflow writes that version into the four manifest files (`plugin.json` in each plugin folder), `server.json` and `CHANGELOG.md` on the branch.
-3. Merging into `main` tags the merge commit `vX.Y.Z` and publishes `server.json` to the MCP Registry under that version.
+3. Merging into `main` tags the merge commit `vX.Y.Z` and publishes `server.json` to the MCP Registry under that version, then builds the Hermes package onto the `dist/hermes` branch.
 
 A pull request that changes `skills/`, `.mcp.json`, `.claude-plugin/`,
 `.codex-plugin/`, `.grok-plugin/`, `hermes/`, `.agents/`, `hooks/` or `commands/` fails without exactly one of
