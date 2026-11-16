@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "eachlabs",
-  "version": "0.4.0",
-  "description": "Generate and edit images, video, music and voice with each::labs models, and run your organization's each::labs workflows, from a conversation. Sign in with your each::labs account; no API key needed. In Hermes Agent, first add the server with `hermes mcp install eachlabs`. The media editing tools are off until you run `hermes mcp configure eachlabs`.",
+  "version": "0.4.1",
+  "description": "Generate and edit images, video, music and voice with each::labs models, and run your organization's each::labs workflows, from a conversation. Sign in with your each::labs account; no API key needed. In Hermes Agent, first add the server with `hermes mcp add eachlabs --url https://mcp.eachlabs.ai/mcp --auth oauth`. The media editing tools are off until you run `hermes mcp configure eachlabs`.",
   "author": {
     "name": "each::labs",
     "url": "https://www.eachlabs.ai"
