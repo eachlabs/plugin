@@ -11,6 +11,7 @@ if [ $# -ne 1 ]; then
   exit 2
 fi
 out="$1"
+case "$out" in /*) ;; *) out="$PWD/$out" ;; esac
 
 cd "$(dirname "$0")/.."
 
