@@ -22,6 +22,21 @@ The same repository serves Claude, Codex, Grok Build and Hermes Agent.
 | Codex CLI | `codex plugin marketplace add eachlabs/plugin`, then `codex plugin add eachlabs@eachlabs`, then `codex mcp login eachlabs` |
 | Codex app | Add the marketplace with the CLI command above, then install the eachlabs plugin from Plugins |
 | Grok Build | `grok plugin install eachlabs/plugin --trust`, then sign in when Grok opens the each::labs page in your browser |
+| Hermes Agent | Four commands, listed under Hermes Agent below |
+
+**Team and Enterprise.** An Owner can add the connector
+`https://mcp.eachlabs.ai/mcp` for the whole organization. Each member adds the
+plugin marketplace themselves, because organization-wide plugin sync on
+claude.ai accepts only the organization's own private repositories. Each member
+then signs in with their own each::labs account. That account must belong to
+the each::labs organization that should pay for the runs; a member who signs in
+with a personal account is billed there instead.
+
+**Updating.** In Claude Chat and Claude Desktop a plugin installed from the
+marketplace updates automatically, with no restart. In Claude Code, run
+`claude plugin update eachlabs@eachlabs`, then `/reload-plugins`. In Codex, run
+`codex plugin marketplace upgrade`. In Grok Build, run `grok plugin update eachlabs`.
+In Hermes Agent, run `hermes plugins update eachlabs`.
 
 ### Hermes Agent
 
@@ -37,19 +52,7 @@ hermes plugins enable eachlabs
 The first two add the each::labs server and sign you in. The login opens the each::labs
 sign-in page in your browser. The other two add the skills. Start a new Hermes session
 after you sign in, so the tools load. Hermes shows no cards.
-
-**Team and Enterprise.** An Owner can add the connector
-`https://mcp.eachlabs.ai/mcp` for the whole organization. Each member adds the
-plugin marketplace themselves, because organization-wide plugin sync on
-claude.ai accepts only the organization's own private repositories. Each member
-then signs in with their own each::labs account. That account must belong to
-the each::labs organization that should pay for the runs; a member who signs in
-with a personal account is billed there instead.
-
-**Updating.** In Claude Chat and Claude Desktop a plugin installed from the
-marketplace updates automatically, with no restart. In Claude Code, run
-`claude plugin update eachlabs@eachlabs`, then `/reload-plugins`. In Codex, run
-`codex plugin marketplace upgrade`. In Grok Build, run `grok plugin update eachlabs`.
+The media editing tools are off by default. Turn them on with `hermes mcp configure eachlabs`.
 
 ## Sign in
 
@@ -87,7 +90,7 @@ whole job, and runs it if one fits.
 
 In the chat apps, Claude Chat (claude.ai), Claude Desktop and the Codex app,
 some answers come with a small card instead of plain text. Terminals such as
-Claude Code, Codex CLI and Grok Build show the same results as text.
+Claude Code, Codex CLI, Grok Build and Hermes Agent show the same results as text.
 
 | You see | When |
 | --- | --- |
