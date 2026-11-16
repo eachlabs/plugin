@@ -17,8 +17,9 @@ jobs:
         run: node scripts/check-skills.mjs
       - name: Claude, Codex, Grok and Hermes manifests agree
         run: node scripts/check-manifests.mjs
-      - name: Hermes skills match
-        run: diff -r skills hermes/skills
+      - name: Hermes package builds
+        run: |
+          out="$RUNNER_TEMP/hermes" && scripts/build-hermes.sh "$out" && test -f "$out/plugin.json" && test -f "$out/README.md" && diff -r skills "$out/skills"
       - name: Clone eachlabs/skills at the commit skills/ was made from
         run: |
           commit="$(grep -oE 'at `[0-9a-f]{40}`' skills/DEFERRED.md | grep -oE '[0-9a-f]{40}')"
