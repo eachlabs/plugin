@@ -1,7 +1,7 @@
 # Changelog
 
 Each release changes `version` in `.claude-plugin/plugin.json`,
-`.codex-plugin/plugin.json`, `.grok-plugin/plugin.json`, `plugin.json` and `server.json`;
+`.codex-plugin/plugin.json`, `.grok-plugin/plugin.json`, `hermes/plugin.json` and `server.json`;
 Claude, Codex, Grok Build and Hermes Agent update an installed plugin only when that number changes.
 
 ## 0.3.0

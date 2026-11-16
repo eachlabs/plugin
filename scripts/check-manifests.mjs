@@ -17,7 +17,7 @@ const read = (p) => JSON.parse(readFileSync(join(root, p), "utf8"));
 const claude = read(".claude-plugin/plugin.json");
 const codex = read(".codex-plugin/plugin.json");
 const grok = read(".grok-plugin/plugin.json");
-const hermes = read("plugin.json");
+const hermes = read("hermes/plugin.json");
 
 const diffs = ["name", "version", "description"].filter((k) => claude[k] !== codex[k]);
 for (const k of diffs) {
@@ -30,7 +30,7 @@ for (const k of ["name", "version"].filter((k) => claude[k] !== grok[k])) {
 }
 
 for (const k of ["name", "version"].filter((k) => claude[k] !== hermes[k])) {
-  console.error(`${k} differs: .claude-plugin/plugin.json has ${JSON.stringify(claude[k])}, plugin.json has ${JSON.stringify(hermes[k])}`);
+  console.error(`${k} differs: .claude-plugin/plugin.json has ${JSON.stringify(claude[k])}, hermes/plugin.json has ${JSON.stringify(hermes[k])}`);
   diffs.push(`hermes ${k}`);
 }
 
