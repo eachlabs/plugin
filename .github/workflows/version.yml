@@ -195,8 +195,9 @@ jobs:
             echo "::error::This commit does not carry the tag v$version, so nothing is built."
             exit 1
           fi
-          if ! [[ "$short" =~ ^[0-9a-f]{7}$ ]]; then
-            echo "::error::The short commit id is not seven hex digits, so nothing is built."
+          git fetch -q origin main
+          if ! git merge-base --is-ancestor HEAD FETCH_HEAD; then
+            echo "::error::v$version is not on main, so it is not built."
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
