@@ -12,6 +12,7 @@ version is released.
 | `.codex-plugin/plugin.json` | Plugin manifest for Codex: the same name, version and description, plus how Codex lists the plugin |
 | `.agents/plugins/marketplace.json` | Marketplace listing this plugin, for `codex plugin marketplace add` |
 | `.grok-plugin/plugin.json` | Plugin manifest for Grok Build: the same name and version, and a description without the cards, which a terminal does not show |
+| `plugin.json` | Agent Plugins v1 manifest for Hermes Agent: the same name and version; skills only, the server comes from Hermes's MCP catalog |
 | `.mcp.json` | The connector URL, `https://mcp.eachlabs.ai/mcp` |
 | `server.json` | The server's entry in the [MCP Registry](https://registry.modelcontextprotocol.io), `ai.eachlabs/mcp` |
 | `CHANGELOG.md` | What each version changes |
@@ -33,13 +34,13 @@ check the result: `node scripts/check-skills.mjs`, and
 ## How to release
 
 1. Put one `version/patch`, `version/minor` or `version/major` label on the pull request.
-2. The `version` workflow writes that version into the three `plugin.json` files, `server.json` and `CHANGELOG.md` on the branch.
+2. The `version` workflow writes that version into the four `plugin.json` files, `server.json` and `CHANGELOG.md` on the branch.
 3. Merging into `main` tags the merge commit `vX.Y.Z` and publishes `server.json` to the MCP Registry under that version.
 
 A pull request that changes `skills/`, `.mcp.json`, `.claude-plugin/`,
-`.codex-plugin/`, `.grok-plugin/`, `.agents/`, `hooks/` or `commands/` fails without exactly one of
-those labels, because Claude, Codex and Grok Build update an installed plugin only when its
+`.codex-plugin/`, `.grok-plugin/`, the root `plugin.json`, `.agents/`, `hooks/` or `commands/` fails without exactly one of
+those labels, because Claude, Codex, Grok Build and Hermes Agent update an installed plugin only when its
 version changes. `scripts/check-manifests.mjs` fails when the Claude and Codex manifests'
-name, version or description differ, when the Grok manifest has another name or
+name, version or description differ, when the Grok or Hermes manifest has another name or
 version, or when `server.json` has another version. The daily skills sync labels its
 pull request `version/patch`.
