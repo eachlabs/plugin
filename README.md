@@ -25,16 +25,18 @@ The same repository serves Claude, Codex, Grok Build and Hermes Agent.
 
 ### Hermes Agent
 
-Run these three commands:
+Run these four commands:
 
 ```
 hermes mcp install eachlabs
+hermes mcp login eachlabs
 hermes plugins install eachlabs
 hermes plugins enable eachlabs
 ```
 
-The first adds the each::labs server and signs you in. The other two add the skills.
-Hermes shows no cards.
+The first two add the each::labs server and sign you in. The login opens the each::labs
+sign-in page in your browser. The other two add the skills. Start a new Hermes session
+after you sign in, so the tools load. Hermes shows no cards.
 
 **Team and Enterprise.** An Owner can add the connector
 `https://mcp.eachlabs.ai/mcp` for the whole organization. Each member adds the
