@@ -43,15 +43,15 @@ In Hermes Agent, run `hermes plugins update eachlabs`.
 Run these four commands:
 
 ```
-hermes mcp install eachlabs
-hermes mcp login eachlabs
+hermes mcp add eachlabs --url https://mcp.eachlabs.ai/mcp --auth oauth --connect-timeout 300
+hermes mcp login eachlabs        # only if no browser opened
 hermes plugins install eachlabs
 hermes plugins enable eachlabs
 ```
 
-The first two add the each::labs server and sign you in. The login opens the each::labs
-sign-in page in your browser. The other two add the skills. Start a new Hermes session
-after you sign in, so the tools load. Hermes shows no cards.
+The first adds the each::labs server and opens the each::labs sign-in page in your browser.
+Run the second only if no browser opened. The other two add the skills. Start a new Hermes
+session after you sign in, so the tools load. Hermes shows no cards.
 The media editing tools are off by default. Turn them on with `hermes mcp configure eachlabs`.
 
 ## Sign in
