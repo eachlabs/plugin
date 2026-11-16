@@ -15,8 +15,10 @@ jobs:
           node-version: 22
       - name: No curl, key or host left in a skill
         run: node scripts/check-skills.mjs
-      - name: Claude, Codex and Grok manifests agree
+      - name: Claude, Codex, Grok and Hermes manifests agree
         run: node scripts/check-manifests.mjs
+      - name: Hermes skills match
+        run: diff -r skills hermes/skills
       - name: Clone eachlabs/skills at the commit skills/ was made from
         run: |
           commit="$(grep -oE 'at `[0-9a-f]{40}`' skills/DEFERRED.md | grep -oE '[0-9a-f]{40}')"
