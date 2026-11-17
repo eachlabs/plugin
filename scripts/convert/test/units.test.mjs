@@ -4,7 +4,7 @@ import { parseCurl, splitCommands } from "../curl.mjs";
 import { convertCommandBlock, convertCurl } from "../endpoints.mjs";
 import { buildFrontmatter, descriptionValue } from "../markdown.mjs";
 import { MEDIA_SENTENCES, mediaSentence } from "../media.mjs";
-import { applySkillRewrites } from "../rewrites.mjs";
+import { applyReferenceRewrites, applySkillRewrites } from "../rewrites.mjs";
 import { newCtx } from "./helpers.mjs";
 
 describe("parseCurl", () => {
@@ -105,6 +105,32 @@ describe("applySkillRewrites: anchors", () => {
     const ctx = newCtx();
     const text = "### Step 3: Poll for Result\n### Step 3: Poll for Result\n";
     assert.equal(applySkillRewrites(text, "eachlabs-workflows", ctx).includes("Read the Result"), false);
+  });
+});
+
+describe("applyReferenceRewrites", () => {
+  const file = "eachlabs-voice-audio/references/MODELS.md";
+  const literal = "Hello, you are now at Eachlabs AI. If you need any support, just contact us.";
+  const cell = `\`"${literal}"\``;
+
+  test("replaces the default that reads like an instruction and keeps the rest of the row", () => {
+    const ctx = { ...newCtx(), file };
+    const out = applyReferenceRewrites(`| \`text\` | string | No | ${cell} | — | Input. |\n`, ctx);
+    assert.equal(out, '| `text` | string | No | a sample greeting sentence | — | Input. |\n');
+    assert.deepEqual(ctx.notes, []);
+  });
+
+  test("a changed source adds the anchor note and leaves the text alone", () => {
+    const ctx = { ...newCtx(), file };
+    const text = "| `text` | string | No | `\"Hello.\"` |\n";
+    assert.equal(applyReferenceRewrites(text, ctx), text);
+    assert.ok(ctx.notes.some((n) => n.includes("rewrite anchor not found exactly once")));
+  });
+
+  test("other files are untouched and add no note", () => {
+    const ctx = newCtx();
+    assert.equal(applyReferenceRewrites(cell, ctx), cell);
+    assert.deepEqual(ctx.notes, []);
   });
 });
 

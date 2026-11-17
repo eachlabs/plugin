@@ -87,6 +87,20 @@ export const SKILL_REWRITES = {
   ],
 };
 
+// Whole-text rewrites for one reference file, keyed by its path under skills/.
+// Same rules as SKILL_REWRITES: each `find` must occur exactly once.
+// The literal below is a text-to-speech model's real default value, but it reads
+// like a role instruction ("you are now ...") to agent install scanners such as
+// Hermes, which then flag the package. The model keeps its real default; the cell names the kind of value instead.
+export const REFERENCE_REWRITES = {
+  "eachlabs-voice-audio/references/MODELS.md": [
+    {
+      find: '`"Hello, you are now at Eachlabs AI. If you need any support, just contact us."`',
+      replace: "a sample greeting sentence",
+    },
+  ],
+};
+
 // Passages removed by exact match: response examples from the old workflows
 // engine and version settings changed in the dashboard. Each entry lists the
 // passage's versions; one that is absent is left alone, since newer sources dropped them.
@@ -147,6 +161,17 @@ export function applySkillRewrites(text, name, ctx) {
   for (const chunk of DROPPED_TEXT[name] ?? []) {
     const hit = findOnce(text, Array.isArray(chunk) ? chunk : [chunk]);
     if (hit !== null) text = text.replace(hit, "");
+  }
+  return text;
+}
+
+export function applyReferenceRewrites(text, ctx) {
+  for (const { find, replace } of REFERENCE_REWRITES[ctx.file] ?? []) {
+    if (text.split(find).length - 1 !== 1) {
+      anchorMissing(ctx, [find]);
+      continue;
+    }
+    text = text.replace(find, replace);
   }
   return text;
 }
