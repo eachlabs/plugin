@@ -11,7 +11,7 @@ import {
   splitFrontmatter,
 } from "./markdown.mjs";
 import { deferredDoc, newReport } from "./report.mjs";
-import { applySkillRewrites, DESCRIPTION_OVERRIDES, DROPPED_SECTIONS, rewriteProse } from "./rewrites.mjs";
+import { applyReferenceRewrites, applySkillRewrites, DESCRIPTION_OVERRIDES, DROPPED_SECTIONS, rewriteProse } from "./rewrites.mjs";
 import { listFiles, sourceCommit, writeFile } from "./source.mjs";
 import { mediaSentence } from "./media.mjs";
 import { detectInputs, toolsSection } from "./tools.mjs";
@@ -67,7 +67,9 @@ function convertSkill(skillDir, name, out, report) {
 
 // One skill or reference file, in the order the steps apply.
 function convertBody(body, { name, kind, isSkill, ctx }) {
-  let lines = applySkillRewrites(body, name, ctx).split("\n");
+  let text = applySkillRewrites(body, name, ctx);
+  if (!isSkill) text = applyReferenceRewrites(text, ctx);
+  let lines = text.split("\n");
   lines = dropSections(lines, DROPPED_SECTIONS);
   lines = mapFencedBlocks(lines, (block) => convertCommandBlock(block, ctx));
   lines = rewriteProse(lines);
