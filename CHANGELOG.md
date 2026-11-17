@@ -4,6 +4,10 @@ Each release changes `version` in `.claude-plugin/plugin.json`,
 `.codex-plugin/plugin.json`, `.grok-plugin/plugin.json`, `hermes/plugin.json` and `server.json`;
 Claude, Codex, Grok Build and Hermes Agent update an installed plugin only when that number changes.
 
+## 0.4.2
+
+- Say the Hermes plugin needs Hermes 0.23.2
+
 ## 0.4.1
 
 - Prepare the Hermes plugin for its catalog
