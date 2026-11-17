@@ -40,6 +40,9 @@ In Hermes Agent, run `hermes plugins update eachlabs`.
 
 ### Hermes Agent
 
+You need Hermes Agent 0.23.2 or later. Run `hermes update` first. On older versions
+the sign-in can stop before you finish it.
+
 Run these four commands:
 
 ```
@@ -50,9 +53,11 @@ hermes plugins enable eachlabs
 ```
 
 The first adds the each::labs server and opens the each::labs sign-in page in your browser.
-Run the second only if no browser opened. The other two add the skills. Start a new Hermes
-session after you sign in, so the tools load. Hermes shows no cards.
-The media editing tools are off by default. Turn them on with `hermes mcp configure eachlabs`.
+Approve there, and the terminal continues by itself. Paste nothing unless the browser cannot
+connect to `127.0.0.1`. Run the second only if no browser opened. The other two add the skills.
+Start a new Hermes session after you sign in, so the tools load. Hermes shows no cards.
+Hermes turns on all each::labs tools. To keep only the ones you need, run
+`hermes mcp configure eachlabs`.
 
 ## Sign in
 
