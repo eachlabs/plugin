@@ -6,7 +6,7 @@ Claude, Codex, Grok Build and Hermes Agent update an installed plugin only when 
 
 ## 0.4.2
 
-- Say the Hermes plugin needs Hermes 0.23.2
+- Require Hermes Agent 0.23.2 or later
 
 ## 0.4.1
 
