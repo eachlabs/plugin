@@ -6,7 +6,7 @@ Claude, Codex, Grok Build and Hermes Agent update an installed plugin only when 
 
 ## 0.4.3
 
-- Describe a sample default instead of quoting it
+- Stop Hermes from blocking the plugin install
 
 ## 0.4.2
 
