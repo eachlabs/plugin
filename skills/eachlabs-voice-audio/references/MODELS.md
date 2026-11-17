@@ -460,7 +460,7 @@ Complete parameter reference for all voice and audio models. All models use vers
 
 | Parameter | Type | Required | Default | Options / Constraints | Description |
 |-----------|------|----------|---------|----------------------|-------------|
-| `text` | string | No | `"Hello, you are now at Eachlabs AI. If you need any support, just contact us."` | — | This is the written input that you want to be converted into spoken words. |
+| `text` | string | No | a sample greeting sentence | — | This is the written input that you want to be converted into spoken words. |
 | `speaker` | string | Yes | — | — | This determines the specific voice or persona that will speak the provided text. |
 | `language` | string | No | `"en"` | en,es,fr,de,it,pt,pl,tr,ru,nl,cs,ar,zh,hu,ko,hi | This refers to the choice of language for the text-to-speech synthesis. |
 | `cleanup_voice` | boolean | No | `"true"` | — | This option helps in refining and improving the quality of the generated speech. |
