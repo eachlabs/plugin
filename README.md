@@ -12,6 +12,8 @@ Generate and edit images, video, music and voice with each::labs models from Her
 
 ## Set up
 
+You need Hermes Agent 0.23.2 or later. On older versions the sign-in can stop before you finish it. Run `hermes update` first.
+
 ```
 hermes mcp add eachlabs --url https://mcp.eachlabs.ai/mcp --auth oauth --connect-timeout 300
 hermes mcp login eachlabs        # only if no browser opened
@@ -19,8 +21,8 @@ hermes plugins install eachlabs
 hermes plugins enable eachlabs
 ```
 
-The first command adds the each::labs server and opens the sign-in page in your browser. Run the second only if no browser opened. The other two add the skills. Start a new Hermes session after you sign in.
+The first command adds the each::labs server and opens the sign-in page in your browser. Approve there, and the terminal continues by itself. You do not need to paste anything into the terminal unless the browser cannot connect to `127.0.0.1`. Run the second command only if no browser opened. The other two add the skills. Start a new Hermes session after you sign in.
 
-The media editing tools (cut, crop, resize, convert) are off by default. Turn them on with `hermes mcp configure eachlabs`.
+Hermes turns on all each::labs tools, including the media editing tools (cut, crop, resize, convert). To keep only the ones you need, run `hermes mcp configure eachlabs`.
 
 More in the [main README](https://github.com/eachlabs/plugin#readme) and at [docs.eachlabs.ai](https://docs.eachlabs.ai).
